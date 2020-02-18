@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-18 09:13+0000\n"
+"POT-Creation-Date: 2020-02-18 09:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -53,4 +53,28 @@ msgstr "Output column"
 
 msgid "_spec.parameters.out_column.placeholder"
 msgstr "result"
+
+#: formula.py:89
+msgid "python.disabledFunction"
+msgstr "{name} is disabled"
+
+#: formula.py:218
+msgid "excel.one_row.invalidCellRange"
+msgstr "Invalid cell range: {token}"
+
+#: formula.py:228
+msgid "excel.one_row.cellRangeNotRectangular"
+msgstr "Excel range must be a rectangular block of values"
+
+#: formula.py:265
+msgid "excel.badCellReference"
+msgstr "Bad cell reference {token}"
+
+#: formula.py:277
+msgid "excel.formulaFirstRowReference"
+msgstr "Excel formulas can only reference the first row when applied to all rows"
+
+#: formula.py:308
+msgid "excel.invalidFormula"
+msgstr "Couldn't parse formula: {error}"
 

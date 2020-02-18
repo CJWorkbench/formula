@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-18 09:13+0000\n"
+"POT-Creation-Date: 2020-02-18 09:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: el\n"
@@ -50,5 +50,29 @@ msgid "_spec.parameters.out_column.name"
 msgstr ""
 
 msgid "_spec.parameters.out_column.placeholder"
+msgstr ""
+
+#: formula.py:89
+msgid "python.disabledFunction"
+msgstr ""
+
+#: formula.py:218
+msgid "excel.one_row.invalidCellRange"
+msgstr ""
+
+#: formula.py:228
+msgid "excel.one_row.cellRangeNotRectangular"
+msgstr ""
+
+#: formula.py:265
+msgid "excel.badCellReference"
+msgstr ""
+
+#: formula.py:277
+msgid "excel.formulaFirstRowReference"
+msgstr ""
+
+#: formula.py:308
+msgid "excel.invalidFormula"
 msgstr ""
 
