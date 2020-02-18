@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-18 09:35+0000\n"
+"POT-Creation-Date: 2020-02-18 15:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: el\n"
@@ -20,37 +20,39 @@ msgstr ""
 "Generated-By: Babel 2.8.0\n"
 
 msgid "_spec.name"
-msgstr ""
+msgstr "Τύπος"
 
 msgid "_spec.description"
 msgstr ""
+"Εκτέλεση τύπου Excel ή Python μεταξύ στηλών και αποθήκευση του "
+"αποτελέσματος σε νέα στήλη."
 
 msgid "_spec.parameters.syntax.options.excel.label"
-msgstr ""
+msgstr "Excel"
 
 msgid "_spec.parameters.syntax.options.python.label"
-msgstr ""
+msgstr "Python"
 
 msgid "_spec.parameters.formula_excel.name"
-msgstr ""
+msgstr "Τύπος"
 
 msgid "_spec.parameters.formula_excel.placeholder"
-msgstr ""
+msgstr "=A1+B1"
 
 msgid "_spec.parameters.all_rows.name"
-msgstr ""
+msgstr "Εφαρμογή σε όλες τις σειρές"
 
 msgid "_spec.parameters.formula_python.name"
-msgstr ""
+msgstr "Τύπος"
 
 msgid "_spec.parameters.formula_python.placeholder"
-msgstr ""
+msgstr "col1 + col2"
 
 msgid "_spec.parameters.out_column.name"
-msgstr ""
+msgstr "Στήλη εξόδου"
 
 msgid "_spec.parameters.out_column.placeholder"
-msgstr ""
+msgstr "αποτέλεσμα"
 
 #: formula.py:89
 msgid "python.disabledFunction"
