@@ -1,0 +1,44 @@
+#. default-message: Formula
+msgid "_spec.name"
+msgstr ""
+
+#. default-message: Run Excel or Python formula between columns and store result in a new column.
+msgid "_spec.description"
+msgstr ""
+
+#. default-message: Excel
+msgid "_spec.parameters.syntax.options.excel.label"
+msgstr ""
+
+#. default-message: Python
+msgid "_spec.parameters.syntax.options.python.label"
+msgstr ""
+
+#. default-message: Formula
+msgid "_spec.parameters.formula_excel.name"
+msgstr ""
+
+#. default-message: =A1+B1
+msgid "_spec.parameters.formula_excel.placeholder"
+msgstr ""
+
+#. default-message: Apply to all rows
+msgid "_spec.parameters.all_rows.name"
+msgstr ""
+
+#. default-message: Formula
+msgid "_spec.parameters.formula_python.name"
+msgstr ""
+
+#. default-message: col1 + col2
+msgid "_spec.parameters.formula_python.placeholder"
+msgstr ""
+
+#. default-message: Output column
+msgid "_spec.parameters.out_column.name"
+msgstr ""
+
+#. default-message: result
+msgid "_spec.parameters.out_column.placeholder"
+msgstr ""
+

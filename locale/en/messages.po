@@ -1,0 +1,56 @@
+# English translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-02-18 09:13+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+msgid "_spec.name"
+msgstr "Formula"
+
+msgid "_spec.description"
+msgstr ""
+"Run Excel or Python formula between columns and store result in a new "
+"column."
+
+msgid "_spec.parameters.syntax.options.excel.label"
+msgstr "Excel"
+
+msgid "_spec.parameters.syntax.options.python.label"
+msgstr "Python"
+
+msgid "_spec.parameters.formula_excel.name"
+msgstr "Formula"
+
+msgid "_spec.parameters.formula_excel.placeholder"
+msgstr "=A1+B1"
+
+msgid "_spec.parameters.all_rows.name"
+msgstr "Apply to all rows"
+
+msgid "_spec.parameters.formula_python.name"
+msgstr "Formula"
+
+msgid "_spec.parameters.formula_python.placeholder"
+msgstr "col1 + col2"
+
+msgid "_spec.parameters.out_column.name"
+msgstr "Output column"
+
+msgid "_spec.parameters.out_column.placeholder"
+msgstr "result"
+
