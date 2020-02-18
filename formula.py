@@ -348,8 +348,6 @@ def render(table, params, **kwargs):
             newcol = excel_formula(table, formula, all_rows)
         except UserVisibleError as e:
             return e.i18n_message
-        except Exception as e:
-            return str(e)
     else:
         formula: str = params["formula_python"].strip()
         if not formula:
