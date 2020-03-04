@@ -56,25 +56,27 @@ msgstr "αποτέλεσμα"
 
 #: formula.py:89
 msgid "python.disabledFunction"
-msgstr ""
+msgstr "Η {name} είναι απενεργοποιημένη"
 
 #: formula.py:218
 msgid "excel.one_row.invalidCellRange"
-msgstr ""
+msgstr "Μη έγκυρη περιοχή κελιών: {token}"
 
 #: formula.py:228
 msgid "excel.one_row.cellRangeNotRectangular"
-msgstr ""
+msgstr "Η περιοχή Excel πρέπει να είναι ένα ορθογώνιο μπλοκ τιμών"
 
 #: formula.py:265
 msgid "excel.badCellReference"
-msgstr ""
+msgstr "Εσφαλμένη αναφορά κελιού {token}"
 
 #: formula.py:277
 msgid "excel.formulaFirstRowReference"
 msgstr ""
+"Οι τύποι Excel μπορούν να παραπέμπουν μόνο στην πρώτη σειρά όταν "
+"εφαρμόζονται σε όλες τις σειρές"
 
 #: formula.py:308
 msgid "excel.invalidFormula"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η ανάλυση του τύπου: {error}"
 
