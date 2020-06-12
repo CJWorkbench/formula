@@ -11,5 +11,5 @@ setup(
     url="https://github.com/CJWorkbench/formula",
     packages=[""],
     py_modules=["formula"],
-    install_requires=["pandas==0.25.0", "formulas==0.2.0", "cjwmodule>=1.4.0"],
+    install_requires=["pandas~=0.25.0", "formulas~=1.0.0", "cjwmodule>=1.4.0"],
 )

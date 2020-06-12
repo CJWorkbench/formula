@@ -250,7 +250,7 @@ class FormulaTests(unittest.TestCase):
             pd.DataFrame({"A": [1, 2], "result": [2.0, 4.0]}),
         )
 
-    def test_excel_all_rows_function_not_implemented(self):
+    def test_excel_date(self):
         self._test(
             pd.DataFrame({"A": [1, 2, 3]}),
             {
@@ -258,8 +258,54 @@ class FormulaTests(unittest.TestCase):
                 "all_rows": True,
                 "out_column": "X",
             },
-            pd.DataFrame(),
-            "DATE: Function not implemented!",
+            pd.DataFrame(
+                {
+                    "A": [1, 2, 3],
+                    # Excel dates are integers. TODO let user specify an output
+                    # format, so they get useful behavior.
+                    "X": [43617, 43618, 43619],
+                }
+            ),
+        )
+
+    def test_excel_date_add(self):
+        # This is really tricky, because of a bugs in Lotus-1-2-3 in the 1980s.
+        # https://docs.microsoft.com/en-gb/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year
+        #
+        # Let's follow the behavior of LibreOffice and Google Sheets: say the
+        # date system starts at 1899-12-30 instead of 1899-12-31. Test:
+        #
+        # 1. in column A, enter some dates. (1900-01-01 becomes 2.0!)
+        # 2. in column B, enter "=A1" and format as Number
+        # 3. in column C, enter "=A1+3"
+        # 4. in column D, enter "=A1+3" (again) and format as Datetime
+        dates = pd.Series(
+            ["1900-01-01", "1900-02-27", "2020-03-01"], dtype="datetime64[ns]"
+        )
+        self._test(
+            pd.DataFrame({"A": dates}),
+            {"formula_excel": "=A1 + 3", "all_rows": True, "out_column": "X",},
+            pd.DataFrame(
+                {
+                    "A": dates,
+                    # Excel dates are integers. TODO let user specify an output
+                    # format, so they get useful behavior.
+                    "X": [5.0, 62.0, 43894.0],
+                }
+            ),
+        )
+
+    def test_excel_all_rows_function_not_implemented(self):
+        self._test(
+            pd.DataFrame({"A": [1, 2, 3]}),
+            {
+                "formula_excel": "=DATEX(2019, 6, A1)",
+                "all_rows": True,
+                "out_column": "X",
+            },
+            expected_error=i18n_message(
+                "excel.functionNotImplemented", {"name": "DATEX"}
+            ),
         )
 
     # --- Formulas which write to all rows ---
@@ -303,12 +349,13 @@ class FormulaTests(unittest.TestCase):
         self._test(
             pd.DataFrame({"A": [1, 2, 3]}),
             {
-                "formula_excel": "=DATE(2019, 6, A1)",
+                "formula_excel": "=DATEX(2019, 6, A1)",
                 "all_rows": False,
                 "out_column": "X",
             },
-            pd.DataFrame(),
-            "DATE: Function not implemented!",
+            expected_error=i18n_message(
+                "excel.functionNotImplemented", {"name": "DATEX"}
+            ),
         )
 
     def test_excel_sum_column(self):
@@ -354,7 +401,9 @@ class FormulaTests(unittest.TestCase):
         self._test(
             pd.DataFrame({"A": [1, 2]}),
             {"formula_excel": "=SUM(A1:B1)", "all_rows": True},
-            expected_error=("index 1 is out of bounds for axis 0 with size 1"),
+            expected_error=i18n_message(
+                "excel.all_rows.badColumnRef", {"ref": "A1:B1"}
+            ),
         )
 
     def test_excel_error_out_of_range_rows(self):

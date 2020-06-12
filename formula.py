@@ -194,14 +194,21 @@ def eval_excel(code, args):
     """
     Return result of running Excel code with args.
 
-    Raise ValueError if a function is unimplemented.
+    Raise UserVisibleError if a function is unimplemented.
     """
     try:
         ret = code(*args)
     except DispatcherError as err:
-        raise ValueError(
-            ", ".join(str(arg) for arg in err.args[1:-1]) + ": " + str(err.args[-1])
-        )
+        if isinstance(err.args[2], NotImplementedError):
+            raise UserVisibleError(
+                i18n.trans(
+                    "excel.functionNotImplemented",
+                    "Function {name} not implemented",
+                    {"name": err.args[1]},
+                )
+            )
+        else:
+            raise
     if isinstance(ret, np.ndarray):
         return ret.item()
     else:
@@ -239,9 +246,15 @@ def eval_excel_one_row(code, table):
         c2 = int(range["n2"])
 
         nrows, ncols = table.shape
-        if r1 < 0 or r1 >= nrows or c1 < 0 or c1 >= ncols:
-            # expression references non-existent data
-            return "#REF!"
+        # allow r2 > nrows: users use it to say SUM(A1:A99999)
+        if r1 < 0 or c1 < 0 or c2 > ncols or r1 >= r2 or c1 >= c2:
+            raise UserVisibleError(
+                i18n.trans(
+                    "excel.one_row.badRef",
+                    'Excel range "{ref}" is out of bounds',
+                    {"ref": range["ref"]},
+                )
+            )
 
         # retval of code() is OperatorArray:
         # https://github.com/vinci1it2000/formulas/issues/12
@@ -280,10 +293,19 @@ def eval_excel_all_rows(code, table):
                     )
                 )
 
-            col_first = rng["n1"]
-            col_last = rng["n2"]
+            c1 = rng["n1"] - 1
+            c2 = rng["n2"]
 
-            col_idx.append(list(range(col_first - 1, col_last)))
+            if c1 < 0 or c2 > len(table.columns) or c1 >= c2:
+                raise UserVisibleError(
+                    i18n.trans(
+                        "excel.all_rows.badColumnRef",
+                        'Excel range "{ref}" is out of bounds',
+                        {"ref": rng["ref"]},
+                    )
+                )
+
+            col_idx.append(list(range(c1, c2)))
 
     newcol = []
     for row in table.values:
@@ -335,17 +357,53 @@ def _get_output_column(table, out_column: str) -> str:
     return f"{out_column}{n}"
 
 
+def _prepare_table_for_excel_formulas(table):
+    """Convert columns so they'll work with Excel formulas.
+
+    Excel cannot handle datetime columns, so we convert those to Excel dates.
+    """
+    # Extract a table of just the datetimes. They're np.datetime64
+    colnames = table.columns[table.dtypes == "datetime64[ns]"]
+    if not len(colnames):
+        return table
+
+    datetime_table = table[colnames]
+    number_table = pd.DataFrame(
+        index=table.index, columns=datetime_table.columns, dtype=float,
+    )
+    # Excel's number system has two date ranges:
+    # 1 .. 60: 1 is 1900-01-01. 60 is 1900-03-01 (1900-02-29 didn't happen)
+    # 61 .. *: 61 is 1900-03-01
+    # https://docs.microsoft.com/en-gb/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year
+    #
+    # But we won't do that. We'll just say 2 is 1900-01-01. This is what
+    # LibreOffice and Google Sheets do.
+    one_day = np.timedelta64(1, "D").astype("timedelta64[ns]")
+    excel_1900_min_date = np.datetime64("1900-01-01").astype("datetime64[ns]")
+    excel_1900_zero_date = np.datetime64("1899-12-30").astype("datetime64[ns]")
+
+    number_table[datetime_table >= excel_1900_min_date] = (
+        datetime_table - excel_1900_zero_date
+    ) / one_day
+    # Anything else is null
+
+    new_table = table.copy()
+    new_table[colnames] = number_table
+    return new_table
+
+
 def render(table, params, **kwargs):
     if table is None:
         return None  # no rows to process
 
     if params["syntax"] == "excel":
-        formula: str = params["formula_excel"].strip()
-        if not formula:
+        input_table = _prepare_table_for_excel_formulas(table)
+        formula: str = params["formula_excel"]
+        if not formula.strip():
             return table
         all_rows: bool = params["all_rows"]
         try:
-            newcol = excel_formula(table, formula, all_rows)
+            newcol = excel_formula(input_table, formula, all_rows)
         except UserVisibleError as e:
             return e.i18n_message
     else:
