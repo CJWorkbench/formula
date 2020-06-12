@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-18 09:35+0000\n"
+"POT-Creation-Date: 2020-06-12 15:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -58,23 +58,35 @@ msgstr "result"
 msgid "python.disabledFunction"
 msgstr "{name} is disabled"
 
-#: formula.py:218
+#: formula.py:204
+msgid "excel.functionNotImplemented"
+msgstr "Function {name} not implemented"
+
+#: formula.py:225
 msgid "excel.one_row.invalidCellRange"
 msgstr "Invalid cell range: {token}"
 
-#: formula.py:228
+#: formula.py:235
 msgid "excel.one_row.cellRangeNotRectangular"
 msgstr "Excel range must be a rectangular block of values"
 
-#: formula.py:265
+#: formula.py:252
+msgid "excel.one_row.badRef"
+msgstr "Excel range \"{ref}\" is out of bounds"
+
+#: formula.py:278
 msgid "excel.badCellReference"
 msgstr "Bad cell reference {token}"
 
-#: formula.py:277
+#: formula.py:290
 msgid "excel.formulaFirstRowReference"
 msgstr "Excel formulas can only reference the first row when applied to all rows"
 
-#: formula.py:308
+#: formula.py:301
+msgid "excel.all_rows.badColumnRef"
+msgstr "Excel range \"{ref}\" is out of bounds"
+
+#: formula.py:330
 msgid "excel.invalidFormula"
 msgstr "Couldn't parse formula: {error}"
 

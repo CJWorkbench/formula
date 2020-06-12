@@ -47,28 +47,43 @@ msgstr ""
 msgid "python.disabledFunction"
 msgstr ""
 
+#. default-message: Function {name} not implemented
+#: formula.py:204
+msgid "excel.functionNotImplemented"
+msgstr ""
+
 #. default-message: Invalid cell range: {token}
-#: formula.py:218
+#: formula.py:225
 msgid "excel.one_row.invalidCellRange"
 msgstr ""
 
 #. default-message: Excel range must be a rectangular block of values
-#: formula.py:228
+#: formula.py:235
 msgid "excel.one_row.cellRangeNotRectangular"
 msgstr ""
 
+#. default-message: Excel range "{ref}" is out of bounds
+#: formula.py:252
+msgid "excel.one_row.badRef"
+msgstr ""
+
 #. default-message: Bad cell reference {token}
-#: formula.py:265
+#: formula.py:278
 msgid "excel.badCellReference"
 msgstr ""
 
 #. default-message: Excel formulas can only reference the first row when applied to all rows
-#: formula.py:277
+#: formula.py:290
 msgid "excel.formulaFirstRowReference"
 msgstr ""
 
+#. default-message: Excel range "{ref}" is out of bounds
+#: formula.py:301
+msgid "excel.all_rows.badColumnRef"
+msgstr ""
+
 #. default-message: Couldn't parse formula: {error}
-#: formula.py:308
+#: formula.py:330
 msgid "excel.invalidFormula"
 msgstr ""
 
