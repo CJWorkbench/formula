@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-06-12 15:27+0000\n"
+"POT-Creation-Date: 2020-09-15 18:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: el\n"
@@ -54,39 +54,39 @@ msgstr "Στήλη εξόδου"
 msgid "_spec.parameters.out_column.placeholder"
 msgstr "αποτέλεσμα"
 
-#: formula.py:89
+#: formula.py:94
 msgid "python.disabledFunction"
 msgstr ""
 
-#: formula.py:204
+#: formula.py:208
 msgid "excel.functionNotImplemented"
 msgstr ""
 
-#: formula.py:225
+#: formula.py:229
 msgid "excel.one_row.invalidCellRange"
 msgstr ""
 
-#: formula.py:235
+#: formula.py:239
 msgid "excel.one_row.cellRangeNotRectangular"
 msgstr ""
 
-#: formula.py:252
+#: formula.py:256
 msgid "excel.one_row.badRef"
 msgstr ""
 
-#: formula.py:278
+#: formula.py:282
 msgid "excel.badCellReference"
 msgstr ""
 
-#: formula.py:290
+#: formula.py:294
 msgid "excel.formulaFirstRowReference"
 msgstr ""
 
-#: formula.py:301
+#: formula.py:305
 msgid "excel.all_rows.badColumnRef"
 msgstr ""
 
-#: formula.py:330
+#: formula.py:334
 msgid "excel.invalidFormula"
 msgstr ""
 

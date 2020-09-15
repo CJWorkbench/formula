@@ -194,6 +194,7 @@ class FormulaTests(unittest.TestCase):
         if expected_error:
             self.assertEqual(result, expected_error)
         else:
+            self.assertIsInstance(result, pd.DataFrame)
             assert_frame_equal(result, expected_table)
 
     def test_python_formula_int_output(self):
@@ -268,6 +269,30 @@ class FormulaTests(unittest.TestCase):
             ),
         )
 
+    def test_excel_bool(self):
+        self._test(
+            pd.DataFrame({"A": [1, 2, None]}),
+            {
+                "formula_excel": "=A1=1",
+                "all_rows": True,
+                "out_column": "X",
+            },
+            # "None=1" evaluates to False, in Excel-land
+            pd.DataFrame({"A": [1, 2, None], "X": ["True", "False", "False"]}),
+        )
+
+    def test_excel_bool_mixed_type(self):
+        self._test(
+            pd.DataFrame({"A": [1, 2, None]}),
+            {
+                "formula_excel": "=IF(A1=1, TRUE, 3)",
+                "all_rows": True,
+                "out_column": "X",
+            },
+            # "None=1" evaluates to False, in Excel-land
+            pd.DataFrame({"A": [1, 2, None], "X": ["True", "3", "3"]}),
+        )
+
     def test_excel_date_add(self):
         # This is really tricky, because of a bugs in Lotus-1-2-3 in the 1980s.
         # https://docs.microsoft.com/en-gb/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year
@@ -284,7 +309,11 @@ class FormulaTests(unittest.TestCase):
         )
         self._test(
             pd.DataFrame({"A": dates}),
-            {"formula_excel": "=A1 + 3", "all_rows": True, "out_column": "X",},
+            {
+                "formula_excel": "=A1 + 3",
+                "all_rows": True,
+                "out_column": "X",
+            },
             pd.DataFrame(
                 {
                     "A": dates,

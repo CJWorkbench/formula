@@ -25,9 +25,15 @@ def autocast_series_dtype(series: pd.Series) -> pd.Series:
 
     Avoid spurious calls to this function: it's expensive.
 
-    TODO handle dates and maybe booleans.
+    TODO handle dates.
     """
-    if series.dtype == object:
+    if series.dtype == bool:
+        # Handle Excel formula: '=TRUE'
+        #
+        # We capitalize Pythonic, because A) sometimes the formula is in Python;
+        # and B) the `series.astype(str)` below is hard to customize
+        return series.replace({True: "True", False: "False"})
+    elif series.dtype == object:
         nulls = series.isnull()
         if (nulls | (series == "")).all():
             return series
@@ -37,8 +43,7 @@ def autocast_series_dtype(series: pd.Series) -> pd.Series:
         except (ValueError, TypeError):
             # Otherwise, we want all-string. Is that what we already have?
             #
-            # TODO assert that we already have all-string, and nix this
-            # spurious conversion.
+            # Handles Excel formula: =IF(A1=1, 3, "Hi")
             array = series[~nulls].array
             if any(type(x) != str for x in array):
                 series = series.astype(str)
@@ -103,8 +108,7 @@ def build_builtins_for_eval() -> Dict[str, Any]:
 
 
 def build_globals_for_eval() -> Dict[str, Any]:
-    """Builds a __globals__ for use in custom code.
-    """
+    """Builds a __globals__ for use in custom code."""
     eval_builtins = build_builtins_for_eval()
 
     # Hard-code modules we provide the user
@@ -125,7 +129,7 @@ def sanitize_series(series: pd.Series) -> pd.Series:
     Specific fixes:
 
     * Make sure categories have no excess values.
-    * Convert numeric categories to 
+    * Convert numeric categories to
     * Convert unsupported dtypes to string.
     * Reindex so row numbers are contiguous.
     """
@@ -369,7 +373,9 @@ def _prepare_table_for_excel_formulas(table):
 
     datetime_table = table[colnames]
     number_table = pd.DataFrame(
-        index=table.index, columns=datetime_table.columns, dtype=float,
+        index=table.index,
+        columns=datetime_table.columns,
+        dtype=float,
     )
     # Excel's number system has two date ranges:
     # 1 .. 60: 1 is 1900-01-01. 60 is 1900-03-01 (1900-02-29 didn't happen)

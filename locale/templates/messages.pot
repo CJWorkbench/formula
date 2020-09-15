@@ -43,47 +43,47 @@ msgid "_spec.parameters.out_column.placeholder"
 msgstr ""
 
 #. default-message: {name} is disabled
-#: formula.py:89
+#: formula.py:94
 msgid "python.disabledFunction"
 msgstr ""
 
 #. default-message: Function {name} not implemented
-#: formula.py:204
+#: formula.py:208
 msgid "excel.functionNotImplemented"
 msgstr ""
 
 #. default-message: Invalid cell range: {token}
-#: formula.py:225
+#: formula.py:229
 msgid "excel.one_row.invalidCellRange"
 msgstr ""
 
 #. default-message: Excel range must be a rectangular block of values
-#: formula.py:235
+#: formula.py:239
 msgid "excel.one_row.cellRangeNotRectangular"
 msgstr ""
 
 #. default-message: Excel range "{ref}" is out of bounds
-#: formula.py:252
+#: formula.py:256
 msgid "excel.one_row.badRef"
 msgstr ""
 
 #. default-message: Bad cell reference {token}
-#: formula.py:278
+#: formula.py:282
 msgid "excel.badCellReference"
 msgstr ""
 
 #. default-message: Excel formulas can only reference the first row when applied to all rows
-#: formula.py:290
+#: formula.py:294
 msgid "excel.formulaFirstRowReference"
 msgstr ""
 
 #. default-message: Excel range "{ref}" is out of bounds
-#: formula.py:301
+#: formula.py:305
 msgid "excel.all_rows.badColumnRef"
 msgstr ""
 
 #. default-message: Couldn't parse formula: {error}
-#: formula.py:330
+#: formula.py:334
 msgid "excel.invalidFormula"
 msgstr ""
 
