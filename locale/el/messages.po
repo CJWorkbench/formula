@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-15 18:31+0000\n"
+"POT-Creation-Date: 2020-09-15 20:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: el\n"
@@ -74,19 +74,19 @@ msgstr ""
 msgid "excel.one_row.badRef"
 msgstr ""
 
-#: formula.py:282
+#: formula.py:287
 msgid "excel.badCellReference"
 msgstr ""
 
-#: formula.py:294
+#: formula.py:299
 msgid "excel.formulaFirstRowReference"
 msgstr ""
 
-#: formula.py:305
+#: formula.py:310
 msgid "excel.all_rows.badColumnRef"
 msgstr ""
 
-#: formula.py:334
+#: formula.py:339
 msgid "excel.invalidFormula"
 msgstr ""
 

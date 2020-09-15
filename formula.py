@@ -5,7 +5,7 @@ from typing import Any, Dict
 import numpy as np
 import pandas as pd
 from pandas.api.types import is_numeric_dtype, is_datetime64_dtype
-from schedula import DispatcherError
+from schedula import DispatcherError, Token
 from cjwmodule import i18n
 
 
@@ -267,7 +267,12 @@ def eval_excel_one_row(code, table):
 
     # evaluate the formula just once
     # raises ValueError if function isn't implemented
-    return eval_excel(code, formula_args)
+    raw_value = eval_excel(code, formula_args)
+
+    if isinstance(raw_value, Token):
+        # XlError('#VALUE!') => '#VALUE!' Text
+        return str(raw_value)
+    return raw_value
 
 
 def eval_excel_all_rows(code, table):

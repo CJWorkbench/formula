@@ -459,6 +459,14 @@ class FormulaTests(unittest.TestCase):
             pd.DataFrame({"A": [1, 2], "R": ["1", "x"]}),
         )
 
+    def test_excel_value_error(self):
+        # https://www.pivotaltracker.com/story/show/168909000
+        self._test(
+            pd.DataFrame({"A": ["1", "x", "3"]}),
+            {"formula_excel": "=SUM(A1:A3)", "all_rows": False, "out_column": "X"},
+            pd.DataFrame({"A": ["1", "x", "3"], "X": ["#VALUE!", None, None]}),
+        )
+
 
 class SafeExecTest(unittest.TestCase):
     def exec_code(self, code):
