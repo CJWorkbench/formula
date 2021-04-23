@@ -369,17 +369,17 @@ def _get_output_column(table, out_column: str) -> str:
 def _prepare_table_for_excel_formulas(table):
     """Convert columns so they'll work with Excel formulas.
 
-    Excel cannot handle datetime columns, so we convert those to Excel dates.
+    Excel cannot handle date/timestamp columns; convert those to Excel dates.
     """
     # Extract a table of just the datetimes. They're np.datetime64
-    colnames = table.columns[table.dtypes == "datetime64[ns]"]
-    if not len(colnames):
-        return table
+    timestamp_colnames = table.columns[table.dtypes == "datetime64[ns]"]
+    date32_colnames = table.columns[table.dtypes == "period[D]"]
 
-    datetime_table = table[colnames]
+    timestamp_table = table[timestamp_colnames]
+    date32_table = table[date32_colnames]
     number_table = pd.DataFrame(
         index=table.index,
-        columns=datetime_table.columns,
+        columns=[*timestamp_table.columns, *date32_table.columns],
         dtype=float,
     )
     # Excel's number system has two date ranges:
@@ -393,13 +393,19 @@ def _prepare_table_for_excel_formulas(table):
     excel_1900_min_date = np.datetime64("1900-01-01").astype("datetime64[ns]")
     excel_1900_zero_date = np.datetime64("1899-12-30").astype("datetime64[ns]")
 
-    number_table[datetime_table >= excel_1900_min_date] = (
-        datetime_table - excel_1900_zero_date
+    number_table[timestamp_table >= excel_1900_min_date] = (
+        timestamp_table - excel_1900_zero_date
     ) / one_day
     # Anything else is null
 
+    excel_1900_min_period = pd.Period("1900-01-01", "D")
+    excel_1900_zero_period = pd.Period("1899-12-30", "D")
+    number_table[date32_table >= excel_1900_min_period] = (
+        date32_table - excel_1900_zero_period
+    ) / pd.Timedelta("1d")
+
     new_table = table.copy()
-    new_table[colnames] = number_table
+    new_table[number_table.columns] = number_table
     return new_table
 
 

@@ -293,7 +293,7 @@ class FormulaTests(unittest.TestCase):
             pd.DataFrame({"A": [1, 2, None], "X": ["True", "3", "3"]}),
         )
 
-    def test_excel_date_add(self):
+    def test_excel_timestamp_add(self):
         # This is really tricky, because of a bugs in Lotus-1-2-3 in the 1980s.
         # https://docs.microsoft.com/en-gb/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year
         #
@@ -307,6 +307,26 @@ class FormulaTests(unittest.TestCase):
         dates = pd.Series(
             ["1900-01-01", "1900-02-27", "2020-03-01"], dtype="datetime64[ns]"
         )
+        self._test(
+            pd.DataFrame({"A": dates}),
+            {
+                "formula_excel": "=A1 + 3",
+                "all_rows": True,
+                "out_column": "X",
+            },
+            pd.DataFrame(
+                {
+                    "A": dates,
+                    # Excel dates are integers. TODO let user specify an output
+                    # format, so they get useful behavior.
+                    "X": [5.0, 62.0, 43894.0],
+                }
+            ),
+        )
+
+    def test_excel_date_add(self):
+        # Look to `test_excel_timestamp_add` for canonical test
+        dates = pd.Series(["1900-01-01", "1900-02-27", "2020-03-01"], dtype="period[D]")
         self._test(
             pd.DataFrame({"A": dates}),
             {
