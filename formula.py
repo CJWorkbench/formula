@@ -1,17 +1,18 @@
 import builtins
 import itertools
-from formulas import Parser
+import math
 from typing import Any, Dict
+
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_numeric_dtype, is_datetime64_dtype
-from schedula import DispatcherError, Token
 from cjwmodule import i18n
+from formulas import Parser
+from pandas.api.types import is_datetime64_dtype, is_numeric_dtype
+from schedula import DispatcherError, Token
 
 
 def autocast_series_dtype(series: pd.Series) -> pd.Series:
-    """
-    Cast any sane Series to str/category[str]/number/datetime.
+    """Cast any sane Series to str/category[str]/number/datetime.
 
     This is appropriate when parsing CSV data or Excel data. It _seems_
     appropriate when a search-and-replace produces numeric columns like
@@ -108,20 +109,13 @@ def build_builtins_for_eval() -> Dict[str, Any]:
 
 
 def build_globals_for_eval() -> Dict[str, Any]:
-    """Builds a __globals__ for use in custom code."""
+    """Build a __globals__ for use in custom code."""
     eval_builtins = build_builtins_for_eval()
-
-    # Hard-code modules we provide the user
-    import math
-    import pandas as pd
-    import numpy as np
-
     return {"__builtins__": eval_builtins, "math": math, "np": np, "pd": pd}
 
 
 def sanitize_series(series: pd.Series) -> pd.Series:
-    """
-    Enforce type rules on input pandas `Series.values`.
+    """Enforce type rules on input pandas `Series.values`.
 
     The return value is anything that can be passed to the `pandas.Series()`
     constructor.
@@ -195,8 +189,7 @@ def flatten_single_element_lists(x):
 
 
 def eval_excel(code, args):
-    """
-    Return result of running Excel code with args.
+    """Return result of running Excel code with args.
 
     Raise UserVisibleError if a function is unimplemented.
     """
@@ -372,16 +365,18 @@ def _prepare_table_for_excel_formulas(table):
     Excel cannot handle date/timestamp columns; convert those to Excel dates.
     """
     # Extract a table of just the datetimes. They're np.datetime64
-    timestamp_colnames = table.columns[table.dtypes == "datetime64[ns]"]
-    date32_colnames = table.columns[table.dtypes == "period[D]"]
+    timestamp_table = table[table.columns[table.dtypes == "datetime64[ns]"]]
 
-    timestamp_table = table[timestamp_colnames]
-    date32_table = table[date32_colnames]
+    # Add date32 columns. They're period[D]; cast them to np.datetime64 because
+    # it handles nulls and keeps the math easy. (Float64 has 52-bit fraction:
+    # enough to store 32-bit date + 17-bit "86400" seconds/day multiplier, so
+    # the conversion is 100% accurate.)
+    for colname in table.columns[table.dtypes == "period[D]"]:
+        timestamp_table[colname] = table[colname].dt.to_timestamp()
     number_table = pd.DataFrame(
-        index=table.index,
-        columns=[*timestamp_table.columns, *date32_table.columns],
-        dtype=float,
-    )
+        index=table.index, columns=timestamp_table.columns, dtype=float
+    )  # start all-null
+
     # Excel's number system has two date ranges:
     # 1 .. 60: 1 is 1900-01-01. 60 is 1900-03-01 (1900-02-29 didn't happen)
     # 61 .. *: 61 is 1900-03-01
@@ -397,12 +392,6 @@ def _prepare_table_for_excel_formulas(table):
         timestamp_table - excel_1900_zero_date
     ) / one_day
     # Anything else is null
-
-    excel_1900_min_period = pd.Period("1900-01-01", "D")
-    excel_1900_zero_period = pd.Period("1899-12-30", "D")
-    number_table[date32_table >= excel_1900_min_period] = (
-        date32_table - excel_1900_zero_period
-    ) / pd.Timedelta("1d")
 
     new_table = table.copy()
     new_table[number_table.columns] = number_table
@@ -441,8 +430,7 @@ def render(table, params, **kwargs):
 
 
 def _migrate_params_v0_to_v1(params):
-    """
-    v0: syntax is int, 0 means excel, 1 means python
+    """v0: syntax is int, 0 means excel, 1 means python
 
     v1: syntax is 'excel' or 'python'
     """

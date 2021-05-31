@@ -1,14 +1,14 @@
 # English translations for PROJECT.
-# Copyright (C) 2020 ORGANIZATION
+# Copyright (C) 2021 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-15 20:52+0000\n"
+"POT-Creation-Date: 2021-05-31 17:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 msgid "_spec.name"
 msgstr "Formula"
@@ -54,39 +54,39 @@ msgstr "Output column"
 msgid "_spec.parameters.out_column.placeholder"
 msgstr "result"
 
-#: formula.py:94
+#: formula.py:95
 msgid "python.disabledFunction"
 msgstr "{name} is disabled"
 
-#: formula.py:208
+#: formula.py:201
 msgid "excel.functionNotImplemented"
 msgstr "Function {name} not implemented"
 
-#: formula.py:229
+#: formula.py:222
 msgid "excel.one_row.invalidCellRange"
 msgstr "Invalid cell range: {token}"
 
-#: formula.py:239
+#: formula.py:232
 msgid "excel.one_row.cellRangeNotRectangular"
 msgstr "Excel range must be a rectangular block of values"
 
-#: formula.py:256
+#: formula.py:249
 msgid "excel.one_row.badRef"
 msgstr "Excel range \"{ref}\" is out of bounds"
 
-#: formula.py:287
+#: formula.py:280
 msgid "excel.badCellReference"
 msgstr "Bad cell reference {token}"
 
-#: formula.py:299
+#: formula.py:292
 msgid "excel.formulaFirstRowReference"
 msgstr "Excel formulas can only reference the first row when applied to all rows"
 
-#: formula.py:310
+#: formula.py:303
 msgid "excel.all_rows.badColumnRef"
 msgstr "Excel range \"{ref}\" is out of bounds"
 
-#: formula.py:339
+#: formula.py:332
 msgid "excel.invalidFormula"
 msgstr "Couldn't parse formula: {error}"
 
